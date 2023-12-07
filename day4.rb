@@ -29,3 +29,21 @@ index_hash = split_file_by_card.map.with_index do |game, index|
 end
 
 print individual_game_hash
+
+score = 0
+
+individual_game_hash.values.each_with_index do |card_number, _index|
+  winning_numbers = card_number[0]
+  print card_number[0]
+  print winning_numbers
+    card_number[1].each do |called_number|
+      if winning_numbers.include?(called_number) && score == 0
+        score = 1
+      elsif winning_numbers.include?(called_number) && score == 0
+        score *= 2
+      # if winning_numbers.include?(called_number) ? score *= 2 : (puts "No match")
+    end
+  end
+  end
+
+puts score
