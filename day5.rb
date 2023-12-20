@@ -1,50 +1,50 @@
-# input = 'day5input.txt'
-# file = File.open(input, 'r')
+input = 'day5input.txt'
+file = File.open(input, 'r')
 
-# file_contents = file.read
+file_contents = file.read
 
-# file.close
+file.close
 
-# # puts file_contents
+# puts file_contents
 
 
 # #destination, source, range
 
-file_contents ="seeds:
-79 14 55
-13
+# file_contents ="seeds:
+#  79 14 55
+#  13
 
-seed-to-soil map:
-50 98 2
-52 50 48
+# seed-to-soil map:
+# 50 98 2
+# 52 50 48
 
-soil-to-fertilizer map:
-0 15 37
-37 52 2
-39 0 15
+# soil-to-fertilizer map:
+# 0 15 37
+# 37 52 2
+# 39 0 15
 
-fertilizer-to-water map:
-49 53 8
-0 11 42
-42 0 7
-57 7 4
+# fertilizer-to-water map:
+# 49 53 8
+# 0 11 42
+# 42 0 7
+# 57 7 4
 
-water-to-light map:
-88 18 7
-18 25 70
+# water-to-light map:
+# 88 18 7
+# 18 25 70
 
-light-to-temperature map:
-45 77 23
-81 45 19
-68 64 13
+# light-to-temperature map:
+# 45 77 23
+# 81 45 19
+# 68 64 13
 
-temperature-to-humidity map:
-0 69 1
-1 0 69
+# temperature-to-humidity map:
+# 0 69 1
+# 1 0 69
 
-humidity-to-location map:
-60 56 37
-56 93 4"
+# humidity-to-location map:
+# 60 56 37
+# 56 93 4"
 array_step_1 = file_contents.split(/\n+/)
 
 # print array_step_1
@@ -89,46 +89,84 @@ final_hash.shift
 # puts "END OF HASH"
 # puts final_hash.inspect
 
-puts seeds_array
-seeds_array.map do |seed_number|
-  source_array = []
-  destination_array = []
+# puts seeds_array
+# seeds_array.map do |seed_number|
+#   source_array = []
+#   destination_array = []
+#   final_hash.each do |key, numbers|
+#     puts "Final hash #{key} => #{numbers}"
+#     numbers.each_with_index do |value, _index1|
+#       puts "VALUE IS #{value.inspect}, "
+#       #VALUE IS AN ARRAY OF 3
+
+#       range = value[2]
+#       puts "RANGE IS #{range}"
+#       value.each_with_index do |number, index|
+
+#       puts "key hopefully value #{value}, index #{index}, range #{range}"
+#       puts "number class = #{number.class}"
+#       # puts "interior values #{number}, #{index2}"
+#       if index == 1
+#       end_value = number + range
+#       puts "SUPPOSED RANGE #{(number..end_value)}"
+
+#       puts "END VALUE IS #{end_value}"
+#       # puts value
+#       # puts range
+#         source_array << (number..end_value)
+#       end
+#       if index == 0
+#         puts "SUPPOSED RANGE #{(number..end_value)}"
+#         puts "END VALUE IS #{end_value}"
+#         end_value = number + range
+#         destination_array << (number..end_value)
+#       end
+#     end
+
+#   end
+#   # puts "Source array"
+#   # puts source_array.inspect
+#   # puts "destination array"
+#   # puts destination_array
+#   # puts " ================="
+#   end
+
+# end
+
+new_seeds_array = seeds_array.map do |original_seed_number|
+  updated_seed_number = original_seed_number
   final_hash.each do |key, numbers|
-    puts "Final hash #{key} => #{numbers}"
+    # puts "Final hash #{key} => #{numbers}"
     numbers.each_with_index do |value, _index1|
-      puts "VALUE IS #{value.inspect}, "
+      source_array = []
+      destination_array = []
+      # puts "VALUE IS #{value.inspect}, "
       #VALUE IS AN ARRAY OF 3
-
       range = value[2]
-      puts "RANGE IS #{range}"
-      value.each_with_index do |number, index|
+      # puts "RANGE IS #{range}"
 
-      puts "key hopefully value #{value}, index #{index}, range #{range}"
-      puts "number class = #{number.class}"
-      # puts "interior values #{number}, #{index2}"
-      if index == 1
-      end_value = number + range
-      puts "SUPPOSED RANGE #{(number..end_value)}"
-
-      puts "END VALUE IS #{end_value}"
-      # puts value
-      # puts range
-        source_array << (number..end_value)
+      # puts "key hopefully value #{value}, range #{range}"
+      end_value = value[0] +range
+      # puts "END VALUE for SOURCE #{end_value}"
+      destination_array = (value[0]...end_value).to_a
+      end_value= value[1] + range
+      # puts "END VALUE for DESTINATION #{end_value}"
+      source_array = (value[1]...end_value).to_a
+      # puts "Source array"
+      # puts source_array.inspect
+      # puts "destination array"
+      # puts destination_array.inspect
+      # puts " ================="
+      if source_array.include?(updated_seed_number)
+        index_needed = source_array.index(updated_seed_number)
+        # puts "INDEX NEEDED = #{index_needed}"
+        updated_seed_number = destination_array[index_needed]
+        # puts "SEED UPDATED to #{destination_array[index_needed]}"
+        # puts "+++++++++END++++++++++"
       end
-      if index == 0
-        puts "SUPPOSED RANGE #{(number..end_value)}"
-        puts "END VALUE IS #{end_value}"
-        end_value = number + range
-        destination_array << (number..end_value)
-      end
-    end
-
   end
-  # puts "Source array"
-  # puts source_array.inspect
-  # puts "destination array"
-  # puts destination_array
-  # puts " ================="
   end
-
+  updated_seed_number
 end
+
+puts new_seeds_array.min
